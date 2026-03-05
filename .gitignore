@@ -1,0 +1,37 @@
+# Output file extensions
+*.csv
+*.dat
+*.mat
+*.nii*
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.npy
+*.zip
+*.tar*
+*.pdf
+*.pt
+*.npz
+*.svg
+*.hdf5
+
+# Bash scripts, other stuff
+*.jar
+*.sh
+
+# Directories
+__pycache__/
+.spyproject/
+*obsolete*
+data/
+*trash*
+EXPERIMENTS/
+rois/
+
+# Code from external repos and/or obsolete code
+*/*synthesize*.py
+synth_fMRI_tools/
+initial_exps/
+extra/
+
