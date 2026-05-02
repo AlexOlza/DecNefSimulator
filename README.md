@@ -3,8 +3,10 @@
 ### Alexander Olza, Roberto Santana and David Soto
 [ArXiV preprint](https://arxiv.org/abs/2511.14555)
 
-[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=21&a=31112&i=31322&r=123)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/12727/badge)](https://www.bestpractices.dev/projects/12727)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu)
+
+
 
 
 
