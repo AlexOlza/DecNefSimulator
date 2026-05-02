@@ -2,8 +2,8 @@
 
 ### Alexander Olza, Roberto Santana and David Soto
 [ArXiV preprint](https://arxiv.org/abs/2511.14555)
-
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/12727/badge)](https://www.bestpractices.dev/projects/12727)
+<!-- Required for howfairis -->
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/12727/badge)](https://bestpractices.coreinfrastructure.org/projects/12727)
 [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu)
 
 
