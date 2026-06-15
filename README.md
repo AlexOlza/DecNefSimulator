@@ -38,7 +38,7 @@ Click [here](https://github.com/AlexOlza/DecNefSimulator/tree/main/run_exp#readm
 
 ## Installation and resources :wrench:
 
-This project uses Python 3.10. We recommend using pip to manage dependencies. We make use of `pytorch` and have conducted our experiments on a NVIDIA GeForce RTX 2080 GPU; however, the code is prepared to run in CPU as well. With the settings on the paper, the raw experimental results are around XXXXGB in numpy compressed files. Those are not publicly available due to their size, but can be provided upon reasonable request.
+This project uses Python 3.10. We recommend using pip to manage dependencies. We make use of `pytorch` and have conducted our experiments on a NVIDIA GeForce RTX 2080 GPU; however, the code is prepared to run in CPU as well.
 
 The auxiliary repository [DecNefSimulator_install](https://github.com/AlexOlza/DecNefSimulator_install) provides an installation script (`install.sh`), and is also be used to manage new dependencies during active development. Given that Python 3 and pip are available, DecNefSimulator is set up from scratch in a dedicated environment by running the installation script. We kindly advise you to follow that procedure. 
 <details>
