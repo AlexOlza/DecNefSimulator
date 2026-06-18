@@ -19,6 +19,9 @@ We demonstrate how this approach can (i) reproduce empirical phenomena of DecNef
 
 In summary, DecNefSimulator bridges computational modeling and cognitive neuroscience, offering a principled foundation for methodological innovation, robust protocol design, and ultimately, a deeper understanding of DecNef-based brain modulation.
 
+![](https://github.com/AlexOlza/DecNefSimulator/blob/main/Figure1_whiteBG.png)
+
+
 If this work has been useful to you, please include a citation in your publication :blush:
 
 ```bibtex
