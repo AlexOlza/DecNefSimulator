@@ -1,4 +1,4 @@
-
+# We are changing the repo layout for packaging! This will be moved to src/DecNefSimulator/run_exp/README.md
 ## How to use DecNefSimulator 🧠✨
 
 ### Preparing DecNefSimulator for systematic use
