@@ -13,30 +13,75 @@ import pandas as pd
 import seaborn as sns
 from torchvision import datasets
 from torch.utils.data import Dataset, DataLoader
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, KernelPCA, FactorAnalysis
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 #%%
+class FactorAnalysisInvertible(FactorAnalysis):
+    """
+    sklearn FactorAnalysis with an inverse_transform method.
+    Inverse:
+        X_hat = Z @ components_ + mean_
+    """
+    def inverse_transform(self, Z):
+        Z = np.asarray(Z)
+        if Z.ndim == 1:
+            Z = Z.reshape(1, -1)
 
-def bidirectional_reduction(dataset, latent=True, dim=2):
+        return Z @ self.components_ + self.mean_
+def bidirectional_reduction(dataset, latent=True, dim=2, from_VAE =True, reduction='PCA'):
     # if latent==True, original dim: vae latent space (zdim=256 for example)
     # else: receives fMRI data generated from a VAE
     # fMRI--VAEenc-->256--PCAtransf-->2--PCAinv_transf-->256--VAEdec-->fMRI
-    pca_pipe = Pipeline([('scaler', StandardScaler()),
-                         ('pca', PCA(n_components=dim))])
-    
-    X = dataset.latents.numpy() if latent else dataset.reconstructions.numpy()
-    y = dataset.labels.numpy().astype(int)
+    if reduction=='UMAP':
+        from umap.umap_ import UMAP
+        print('UMAP')
+        pca_pipe = Pipeline([#('scaler', StandardScaler()),
+                         ('reducer', UMAP(n_components=dim))])
+    elif reduction=='KernelPCA':
+        from umap.umap_ import UMAP
+        print('KernelPCA')
+        pca_pipe = Pipeline([('scaler', StandardScaler()),
+                         ('reducer', KernelPCA(n_components=dim,
+                                               kernel='rbf', 
+                                               fit_inverse_transform=True))])
+    elif reduction=='KernelPCA_unscaled':
+        print('KernelPCA_unscaled')
+        pca_pipe = Pipeline([#('scaler', StandardScaler()),
+                         ('reducer', KernelPCA(n_components=dim,
+                                               kernel='rbf', 
+                                               fit_inverse_transform=True))])
+
+    elif reduction=='FactorAnalysis':
+        print('FactorAnalysis')
+        pca_pipe = Pipeline([#('scaler', StandardScaler()),
+                         ('reducer', FactorAnalysisInvertible(n_components=dim))])
+    else:
+        print('PCA')
+        pca_pipe = Pipeline([#('scaler', StandardScaler()),
+                         ('reducer', PCA(n_components=dim))])
+
+    if from_VAE:
+        X = dataset.latents.cpu().numpy() if latent else dataset.reconstructions.numpy()
+        y = dataset.labels.numpy().astype(int)
+    else:
+        X = dataset.data
+        if len(X.shape)==3: X = X.reshape((X.shape[0], X.shape[1]*X.shape[2]))
+        y = dataset.targets
     pca_pipe = pca_pipe.fit(X)
-    var = pca_pipe['pca'].explained_variance_ratio_ * 100
-    title = f'Explained variance ratio: {var[0]:.2f}% + {var[1]:.2f}% ={var[0] + var[1]:.2f}% '
-    print(title)
+    
     dataset_transf = pca_pipe.transform(X)
     df = pd.DataFrame(np.hstack((dataset_transf, y.reshape(-1,1))), columns = [f'PC{i}' for i in range(1,dim+1)]+ ['Class'])
     df.Class = df.Class.astype(int).astype(str)
     fig, ax = plt.subplots(1,1, figsize=(10,10))
     sns.scatterplot(data = df, x='PC1', y='PC2', hue = 'Class', ax=ax)
-    fig.suptitle(title)
+    try:
+        var = pca_pipe['reducer'].explained_variance_ratio_ * 100
+        title = f'Explained variance ratio: {var[0]:.2f}% + {var[1]:.2f}% ={var[0] + var[1]:.2f}% '
+        print(title)
+        fig.suptitle(title)
+    except AttributeError:
+        pass
     return pca_pipe, df
 def compute_latents_reconstructions(dataset, vae, device='cuda:1'):
     loader = DataLoader(dataset, batch_size=64, shuffle=False)
@@ -80,9 +125,7 @@ def sample_gaussian(center, N, sigma):
     return pts  # ensure no duplicates
 
 def make_init_z_lattice(N, z_dim, all_class_prototypes, all_class_prototypes_sigma, tgt_non_tgt, 
-                        lattice_fname, z_grid_init_fname,
-                        percent_tgt = 0.10, percent_non_tgt = 0.10,
-                        sigma_gauss=0.5, margin = 0.25):
+                        lattice_fname, z_grid_init_fname,):
     tgt, non_tgt = tgt_non_tgt
     N_A = np.ceil(N/len(all_class_prototypes)).astype(int)
     
@@ -108,6 +151,8 @@ def load_dataset(dataset, transform=None, npz_file_path=None, train=True):
     if dataset=='FASHION':
         # Download and load the MNIST training data
         trainset = datasets.FashionMNIST('../data', download=True, train=train, transform=transform)
+    elif dataset=='EMNIST':
+        trainset = datasets.EMNIST('../data', split='letters', download=True, train=train, transform=transform)
     elif dataset.startswith('synth_fMRI'):
         trainset = NPZDataset(npz_file_path, train=train)
     return trainset
