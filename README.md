@@ -7,6 +7,7 @@
 [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8F-yellow)](https://fair-software.eu)
 
 *In compliance with FAIR practices, DecNefSimulator is registred in the NITRC public software registry, [here](https://www.nitrc.org/projects/decnefsimulator)*
+
 *I am working on pip packaging. Stay tuned!* 😺
 
 
