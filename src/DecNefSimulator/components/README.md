@@ -1,4 +1,3 @@
-# We are changing the repo layout for packaging! This will be moved to src/DecNefSimulator/components/README.md
 # Components of DecNefSimulator
 
 DecNefSimulator is modular and flexible, in a sense that the theoretical aspects of the framework remain independent from the actual models it uses for simulating the human participant and the learning process. Therefore, we encourage other researchers to develop their own custom components. This text contains explanations on what the different kind of components are, and which minimum requirements they must meet.
