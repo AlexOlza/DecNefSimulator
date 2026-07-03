@@ -31,7 +31,7 @@ from torch.utils.data import DataLoader
 ########################################
 from utils.utils import make_init_z_lattice
 from nilearn.image import load_img, math_img, new_img_like
-from analysis.utils import latent_prototypes_to_fmri, generator_probability_map
+from utils.analysis import latent_prototypes_to_fmri, generator_probability_map
 from components.generators import VAE
 from utils.utils import NPZDataset
 from components.classifiers import ElasticNetLinearClassification
@@ -242,10 +242,10 @@ with torch.no_grad():
         probability_map, coordinates, generated_samples, pca_pipe_proto, pca_df_proto = generator_probability_map(generator, z_dim, 
                                                                                                               classifier, target_class_idx,
                                                                                                               n_samples, space_radius = space_radius, 
-                                                                                                              # init_points = generator.encoder(trainset.data.to(device))[0],
-                                                                                                              init_targets = points[:,-1],#np.repeat(range(10),10),
-                                                                                                              # init_targets= trainset.targets,
-                                                                                                              init_points = points[:,:z_dim],#np.unique(trajectory_matrices[label][0, :, :], axis=0)
+                                                                                                              
+                                                                                                              init_targets = points[:,-1],
+                                                                                                              
+                                                                                                              init_points = points[:,:z_dim],
                                                                                                               )
 
     
@@ -258,7 +258,7 @@ plot_probability_map_grid(probability_map, coordinates, pca_pipe_proto,
                                      generator, z_dim, classifier,
                                      target_class_idx, non_target_class_idx, class_name_dict, clean_discr_str,
                                      n_samples,
-                                     space_radius= (pca_df_proto.PC1.min(),pca_df_proto.PC1.max(), pca_df_proto.PC2.min(), pca_df_proto.PC1.max()), #(-0.2,0.3, -0.2, 0.3),
+                                     space_radius= (pca_df_proto.PC1.min(),pca_df_proto.PC1.max(), pca_df_proto.PC2.min(), pca_df_proto.PC1.max()),
                                      ext = ext,
                                      seed=seed,
                                      maxmin=True,
@@ -327,7 +327,6 @@ with torch.no_grad():
                          colorbar=False,
                          figure = fig_glass,
                          )
-        # fig_glass.suptitle('Observable space (fMRI pattern)')
         fig_glass.savefig(f'GLASS__{i}.png', bbox_inches='tight', dpi = 600)
         plt.show()
         
@@ -346,7 +345,6 @@ with torch.no_grad():
         
         fig_recon, axs_recon = plt.subplots(1, 1,figsize=(3,3))
         axs_recon.imshow(img_hat[0,0,:,:], cmap="viridis")
-        # axs_recon.set_title('Semantic representation')
         axs_recon.axis("off")
         fig_recon.tight_layout()
         fig_recon.savefig(f'REC__{i}.png', bbox_inches='tight', dpi = 600, transparent = True)

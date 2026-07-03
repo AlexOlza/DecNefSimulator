@@ -108,23 +108,23 @@ print(f'Features: {n_features}, training sample size: {sample_size}')
 tabular= True if 'fMRI' in config.dataset else False
 if not os.path.exists(generator_fname+'.pt'):
     print(f'Tabular: {tabular}')
-    vae = VAE(z_dim=z_dim, tabular=tabular, n_features=n_features, device= device).to(device)
-    vae.fit(train_loader, generator_epochs, generator_batch_size)
-    vae.compute_prototypes(train_loader)
-    vae_history = vae.history_to_df()
+    generator = VAE(z_dim=z_dim, tabular=tabular, n_features=n_features, device= device).to(device)
+    generator.fit(train_loader, generator_epochs, generator_batch_size)
+    generator.compute_prototypes(train_loader)
+    generator_history = generator.history_to_df()
     print(f'{generator_name} TRAINING FINISHED WITH z_dim=',z_dim)
     #%%
-    vae.save(generator_fname+'.pt')
+    generator.save(generator_fname+'.pt')
 else:
-    vae = VAE(z_dim=z_dim,tabular=tabular, n_features=n_features, device= device).to(device)
-    vae.load(generator_fname+'.pt')
-    vae.device = device
-    vae_history = vae.history_to_df()
+    generator = VAE(z_dim=z_dim,tabular=tabular, n_features=n_features, device= device).to(device)
+    generator.load(generator_fname+'.pt')
+    generator.device = device
+    generator_history = generator.history_to_df()
     print(f'Loaded {generator_fname}')
 
-all_class_prototypes = np.vstack([prot[0].ravel() for idx, prot in vae.prototypes.items()
+all_class_prototypes = np.vstack([prot[0].ravel() for idx, prot in generator.prototypes.items()
                                    ])
-all_class_prototypes_sigma = np.vstack([prot[1].ravel() for idx, prot in vae.prototypes.items()
+all_class_prototypes_sigma = np.vstack([prot[1].ravel() for idx, prot in generator.prototypes.items()
                                    ])
 update_rule_func, update_rule_name = update_rules[config.update_rule_idx], update_rule_names[config.update_rule_idx]
 
@@ -201,7 +201,7 @@ for i in tqdm(range(n_trajectories), desc = 'Init number', total = n_trajectorie
         trajectory,\
         probabilities,\
         all_probabilities,\
-        sigma =  compute_single_trajectory(vae, classifier,
+        sigma =  compute_single_trajectory(generator, classifier,
                                            trajectory_random_seed,
                                            train_loader, config.target_class_idx,
                                            update_rule_func, p_scale_func,

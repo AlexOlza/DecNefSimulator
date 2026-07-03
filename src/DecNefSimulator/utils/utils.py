@@ -13,52 +13,17 @@ import pandas as pd
 import seaborn as sns
 from torchvision import datasets
 from torch.utils.data import Dataset, DataLoader
-from sklearn.decomposition import PCA, KernelPCA, FactorAnalysis
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 #%%
-class FactorAnalysisInvertible(FactorAnalysis):
-    """
-    sklearn FactorAnalysis with an inverse_transform method.
-    Inverse:
-        X_hat = Z @ components_ + mean_
-    """
-    def inverse_transform(self, Z):
-        Z = np.asarray(Z)
-        if Z.ndim == 1:
-            Z = Z.reshape(1, -1)
 
-        return Z @ self.components_ + self.mean_
 def bidirectional_reduction(dataset, latent=True, dim=2, from_VAE =True, reduction='PCA'):
     # if latent==True, original dim: vae latent space (zdim=256 for example)
     # else: receives fMRI data generated from a VAE
     # fMRI--VAEenc-->256--PCAtransf-->2--PCAinv_transf-->256--VAEdec-->fMRI
-    if reduction=='UMAP':
-        from umap.umap_ import UMAP
-        print('UMAP')
-        pca_pipe = Pipeline([#('scaler', StandardScaler()),
-                         ('reducer', UMAP(n_components=dim))])
-    elif reduction=='KernelPCA':
-        from umap.umap_ import UMAP
-        print('KernelPCA')
-        pca_pipe = Pipeline([('scaler', StandardScaler()),
-                         ('reducer', KernelPCA(n_components=dim,
-                                               kernel='rbf', 
-                                               fit_inverse_transform=True))])
-    elif reduction=='KernelPCA_unscaled':
-        print('KernelPCA_unscaled')
-        pca_pipe = Pipeline([#('scaler', StandardScaler()),
-                         ('reducer', KernelPCA(n_components=dim,
-                                               kernel='rbf', 
-                                               fit_inverse_transform=True))])
-
-    elif reduction=='FactorAnalysis':
-        print('FactorAnalysis')
-        pca_pipe = Pipeline([#('scaler', StandardScaler()),
-                         ('reducer', FactorAnalysisInvertible(n_components=dim))])
-    else:
-        print('PCA')
-        pca_pipe = Pipeline([#('scaler', StandardScaler()),
+    
+    pca_pipe = Pipeline([#('scaler', StandardScaler()),
                          ('reducer', PCA(n_components=dim))])
 
     if from_VAE:

@@ -45,7 +45,7 @@ from utils.utils import load_dataset, make_init_z_lattice
 from components.generators import VAE
 from components.classifiers import ElasticNetLinearClassification
 from visualization.plotting import heatmap_mean_X_over_time, plot_probability_map_grid
-from analysis.utils import trajectory_properties_as_df, get_probabilities, generator_probability_map
+from utils.analysis import trajectory_properties_as_df, get_probabilities, generator_probability_map
 ############################################
 #%%
 """

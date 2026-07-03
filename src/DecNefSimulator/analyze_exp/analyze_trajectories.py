@@ -28,7 +28,7 @@ from tqdm import tqdm
 from components.generators import VAE
 from components.classifiers import CNNClassification, ElasticNetLinearClassification
 from visualization.plotting import plot_probability_map_grid, heatmap_mean_X_over_time
-from analysis.utils import generator_probability_map, trajectory_properties_as_df, get_probabilities
+from utils.analysis import generator_probability_map, trajectory_properties_as_df, get_probabilities
 ############################################
 #%%
 # FONT STYLE IS DEFINED IN visualization/plotting.py, WHICH WE IMPORT ABOVE HERE
