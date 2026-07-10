@@ -2,14 +2,13 @@
 
 FASHION_EXP="$1"
 fMRI_EXP="$2"
-REDUCTION="$3"
+CLF="$3" # 0 for DecNef simulations, 1 for control simulations with random feedback
 trajectory_random_seed_init=42
-n_trajectories=100
-lambda_inv=4
-gamma_inv=4
-decnef_iters=500
-ignore_classifier=0
-update_rule_idx=1
+NTRAJS=100
+L_inv=4
+NITER=500
+GENERATOR_EPOCHS=25
+UR=1
 DEVICE="cuda:0"
 INITIAL_SEED=42
 UR=1
@@ -23,7 +22,7 @@ non_target_classes_1=(5 9 1)
 # ------------------------------------------------------------------
 # Analyze trajectories
 # ------------------------------------------------------------------
-
+cd src/DecNefSimulator/run_exp
 for EXP_NAME in "$FASHION_EXP"; do
 
     if [ "$EXP_NAME" = "$FASHION_EXP" ]; then
@@ -38,7 +37,7 @@ for EXP_NAME in "$FASHION_EXP"; do
 
     for i in "${!target_classes[@]}"; do
 
-        target_class_idx=${target_classes[$i]}
+        TGT_CLASS=${target_classes[$i]}
 
         if [ "$i" -eq 0 ]; then
             NON_TARGETS=("${non_target_classes_0[@]}")
@@ -46,11 +45,29 @@ for EXP_NAME in "$FASHION_EXP"; do
             NON_TARGETS=("${non_target_classes_1[@]}")
         fi
 
-        for non_target_class_idx in "${NON_TARGETS[@]}"; do
+        for ALT_CLASS in "${NON_TARGETS[@]}"; do
+            SECONDS=0
+		python3 traditional_decnef_n_instances.py  $EXP_NAME \
+		    --trajectory_random_seed_init $INITIAL_SEED \
+		    --n_trajectories $NTRAJS \
+		    --target_class_idx $TGT_CLASS \
+		    --non_target_class_idx $ALT_CLASS \
+		    --lambda_inv $L_inv \
+		    --gamma_inv $L_inv \
+		    --decnef_iters $NITER \
+		    --ignore_classifier $CLF \
+		    --update_rule_idx $UR \
+		    --dataset $DATASET \
+		    --device $DEVICE \
+		    --subject $SUBJECT \
+		    --z_dim $ZDIM \
+		    --generator_epochs $GENERATOR_EPOCHS
+		DECNEF_duration=$SECONDS
+		echo "DecNef ($((n_trajectories))): $((DECNEF_duration / 60)) minutes and $((DECNEF_duration % 60)) seconds."
 
-            python3 analyze_trajectories.py "$EXP_NAME" "$target_class_idx" "$non_target_class_idx" 0 2 4 "$REDUCTION" "$DEVICE"
+		total_duration=$(($CNN_duration+$VAE_duration+$DECNEF_duration))
+		echo "Total time: $((total_duration / 60)) minutes and $((total_duration % 60)) seconds."
         done
     done
 done
-cd ../run_exp
-            ./traditional_decnef_simulation.sh $EXP_NAME $INITIAL_SEED $NTRRAJS $tgt_class_idx $non_tgt_class_idx $L_inv $L_inv $NITER $UR $IGDIS $DATASET $DEVICE $SUBJECT
+            
