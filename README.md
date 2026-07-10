@@ -61,5 +61,9 @@ You may click this dropdown for a summary of what will happen during the install
 
 Additionally, for experiments with synthetic fMRI, MindEye models and data must be downloaded from [HuggingFace](https://huggingface.co/datasets/pscotti/mindeyev2), specifically, files `betas_all_subj0X_fp32_renorm.hdf5` (where `X` is the subject index), `file`and `file`. For optional result visualization using neuroimaging libraries, we used the file `brain_region_masks.hdf5`.
 
+## Reproducibility :microscope:
+
+To reproduce our results, you can run `run_exp.sh`. Bear in mind that this script runs all our experiments sequentially. We provide it as a reproducibility guide, but we suggest parallelizing as much as possible. We used naive parallelization to run the experiments in our available GPUs.
+
 ## License :scroll:
 This repository is distributed under the AGPL 3.0 license. See the [LICENSE](./LICENSE) file for more details, or visit the [AGPL 3.0 homepage](https://www.gnu.org/licenses/agpl-3.0.en.html).
