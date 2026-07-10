@@ -63,7 +63,7 @@ Additionally, for experiments with synthetic fMRI, MindEye models and data must 
 
 ## Reproducibility :microscope:
 
-To reproduce our results, you can run `run_exp.sh`. Bear in mind that this script runs all our experiments sequentially. We provide it as a reproducibility guide, but we suggest parallelizing as much as possible. We used naive parallelization to run the experiments in our available GPUs.
+To reproduce our results, you can run `run_exp.sh`. Bear in mind that this script runs all our experiments sequentially. We provide it as a reproducibility guide, but we suggest parallelizing as much as possible. We used naive parallelization to run the experiments in our available GPUs. The experimental analysis is conducted by running `image_analysis.sh ` and `fMRI_analysis.sh`.
 
 ## License :scroll:
 This repository is distributed under the AGPL 3.0 license. See the [LICENSE](./LICENSE) file for more details, or visit the [AGPL 3.0 homepage](https://www.gnu.org/licenses/agpl-3.0.en.html).
