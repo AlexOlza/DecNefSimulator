@@ -25,13 +25,17 @@ In summary, DecNefSimulator bridges computational modeling and cognitive neurosc
 If this work has been useful to you, please include a citation in your publication :blush:
 
 ```bibtex
-@article{olza2026decnefsimulator,
-  title={DecNefSimulator: A Modular, Interpretable Framework for Decoded Neurofeedback Simulation Using Generative Models},
-  author={Olza, Alexander and Santana, Roberto and Soto, David},
-  eprint={2511.14555},
-  archivePrefix={arXiv},
-  year={2026},
-  url={https://arxiv.org/abs/2511.14555}
+@article{OLZA2026DECNEFSIMULATOR,
+title = {DecNefSimulator: A modular, interpretable framework for decoded neurofeedback simulation using generative models},
+journal = {Neurocomputing},
+volume = {705},
+pages = {134920},
+year = {2026},
+issn = {0925-2312},
+doi = {https://doi.org/10.1016/j.neucom.2026.134920},
+url = {https://www.sciencedirect.com/science/article/pii/S0925231226023180},
+author = {Alexander Olza and Roberto Santana and David Soto},
+keywords = {Decoded neurofeedback, Cognitive neuroscience, Generative models, Computational simulation, Brain modulation, Computational neuroscience},
 }
 ```
 
