@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "DecNefSimulator"
-description = 
+description = "DecNefSimulator: A Modular, Interpretable Framework for Decoded Neurofeedback Simulation Using Generative Models"
 version = "1.0.0"
 authors = [{name="Alexander Olza"}]
-license = 
+license = "AGPL-3.0"
 license_files = "LICENSE"
 readme = "README.md"
 keywords = ["DecNef", "Decoded Neurofeedback", "Cognitive neuroscience"]
