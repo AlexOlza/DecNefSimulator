@@ -10,7 +10,7 @@ authors = [{name="Alexander Olza"}]
 license = 
 license_files = "LICENSE"
 readme = "README.md"
-keywords = ["DecNef", "Decoded Neurofeedback" "Cognitive neuroscience"]
+keywords = ["DecNef", "Decoded Neurofeedback", "Cognitive neuroscience"]
 
 [project.urls]
 Homepage = "https://github.com/AlexOlza/DecNefSimulator"
