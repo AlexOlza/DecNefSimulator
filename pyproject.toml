@@ -4,16 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "DecNefSimulator"
+description = 
 version = "1.0.0"
 authors = [{name="Alexander Olza"}]
-license = {file = "LICENSE"}
+license = 
+license_files = "LICENSE"
 readme = "README.md"
+keywords = ["DecNef", "Decoded Neurofeedback" "Cognitive neuroscience"]
+
+[project.urls]
+Homepage = "https://github.com/AlexOlza/DecNefSimulator"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-
-
